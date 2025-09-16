@@ -3,7 +3,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "python-project-template"
+name = "python-template"
 version = "0.0.0"
 description = "A modern Python project template"
 authors = ["Your Name <your.email@example.com>"]

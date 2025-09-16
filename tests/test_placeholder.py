@@ -15,7 +15,7 @@ def test_get_project_root() -> None:
     """Test that get_project_root returns a Path object."""
     result = get_project_root()
     assert isinstance(result, Path)
-    assert result.name == "python-template-ruff"
+    assert result.name == "python-template"
 
 
 def test_example_function() -> None:

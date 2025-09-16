@@ -1,10 +1,10 @@
 site_name: Python Project Template
 site_description: A modern Python project template with best practices
 site_author: Your Name
-site_url: https://your-username.github.io/python-template-ruff
+site_url: https://your-username.github.io/python-template
 
-repo_name: your-username/python-template-ruff
-repo_url: https://github.com/your-username/python-template-ruff
+repo_name: your-username/python-template
+repo_url: https://github.com/your-username/python-template
 
 theme:
   name: material

@@ -1,0 +1,139 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "python-project-template"
+version = "0.1.0"
+description = "A modern Python project template"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.10,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+# Linting and formatting
+ruff = "^0.8.0"
+# Type checking
+mypy = "^1.12.0"
+# Testing
+pytest = "^8.4.0"
+pytest-cov = "^6.0.0"
+# Pre-commit hooks
+pre-commit = "^4.0.0"
+# Versioning and changelog
+commitizen = "^3.13.0"
+# Security
+safety = "^3.0.0"
+bandit = "^1.7.0"
+# Development utilities
+ipython = "^8.30.0"
+# Documentation
+mkdocs = "^1.6.1"
+mkdocs-material = "^9.6.20"
+mkdocstrings = {extras = ["python"], version = "^0.26.0"}
+
+[tool.poetry.scripts]
+# Add CLI scripts here
+# my-script = "src.placeholder.module:main"
+
+# Ruff configuration
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+indent-width = 2
+exclude = ["README.md", "CHANGELOG.md", "docs/"]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "SIM",    # flake8-simplify
+    "TCH",    # flake8-type-checking
+    "PT",     # flake8-pytest-style
+    "Q",      # flake8-quotes
+    "RUF",    # Ruff-specific rules
+    "N",      # pep8-naming
+    "S",      # flake8-bandit (security)
+]
+ignore = [
+    "E501", # line too long, handled by formatter
+    "B008", # do not perform function calls in argument defaults
+    "C901", # too complex
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*.py" = ["S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+# Pytest configuration
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/test_*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# Commitizen configuration
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_scheme = "pep440"
+tag_format = "v$version"
+update_changelog_on_bump = true
+changelog_file = "CHANGELOG.md"
+version_files = [
+  "pyproject.toml:version",
+  "src/placeholder/__init__.py:__version__"
+]

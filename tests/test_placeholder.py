@@ -8,7 +8,7 @@ from src.placeholder.utils import example_function, get_project_root
 
 def test_version() -> None:
     """Test that the version is defined."""
-    assert __version__ == "0.1.0"
+    assert __version__ == "0.0.0"
 
 
 def test_get_project_root() -> None:

@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "python-project-template"
-version = "0.1.0"
+version = "0.0.0"
 description = "A modern Python project template"
 authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
@@ -128,7 +128,7 @@ exclude_lines = [
 # Commitizen configuration
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.1.0"
+version = "0.0.0"
 version_scheme = "pep440"
 tag_format = "v$version"
 update_changelog_on_bump = true

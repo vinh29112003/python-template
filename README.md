@@ -2,6 +2,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](https://www.python.org/)
 [![Poetry](https://img.shields.io/badge/Poetry-5037E9?logo=python&logoColor=fff)](https://python-poetry.org/)
+[![Typer](https://img.shields.io/badge/Typer-FF6B6B?logo=python&logoColor=white)](https://typer.tiangolo.com/)
 [![Ruff](https://img.shields.io/badge/Ruff-7C3AED?logo=ruff&logoColor=white)](https://docs.astral.sh/ruff/)
 [![mypy](https://img.shields.io/badge/mypy-1976D2?logo=python&logoColor=white)](https://mypy.readthedocs.io/)
 [![pytest](https://img.shields.io/badge/pytest-0A9EDC?logo=python&logoColor=white)](https://pytest.org/)
@@ -9,7 +10,7 @@
 [![Make](https://img.shields.io/badge/Make-FF8C00?logo=gnu&logoColor=white)](https://www.gnu.org/software/make/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white)](LICENSE)
 
-A production-ready Python project template with modern tooling, automated testing, security scanning, and documentation generation.
+A production-ready Python project template with modern tooling, automated testing, security scanning, documentation generation, and CLI functionality.
 
 ## Includes
 
@@ -17,6 +18,7 @@ A production-ready Python project template with modern tooling, automated testin
 - **Poetry** - Dependency management
 - **mypy** - Static type checking
 - **pytest** - Testing framework with coverage
+- **Typer** - CLI framework with automatic help generation
 - **Pre-commit hooks** - Code quality automation
 - **MkDocs** - Documentation with API generation
 - **Security tools** - Safety and Bandit for vulnerability scanning
@@ -50,6 +52,16 @@ A production-ready Python project template with modern tooling, automated testin
    make check  # Run all checks
    ```
 
+5. Run the application:
+   ```bash
+   poetry run python-template
+   # Or use make commands:
+   make run                    # Run with default package name
+   make run ARGS="--help"      # Run with arguments
+   make debug                  # Run in debug mode
+   make run <package-name>     # Run a specific package
+   ```
+
 ## Requirements
 
 - **Python**: 3.10, 3.11, 3.12, or 3.13
@@ -64,6 +76,10 @@ Use `make help` to see all available commands, or run directly:
 - **Install:** `make install` - Install dependencies
 - **Test:** `make test` - Run tests
 - **Test with coverage:** `make test-cov` - Run tests with coverage report
+- **Run:** `make run` - Run the application
+- **Debug:** `make debug` - Run in debug mode
+- **Run package:** `make run <package-name>` - Run with specific package name
+- **Debug package:** `make debug <package-name>` - Debug with specific package name
 - **Lint:** `make lint` - Run Ruff linter
 - **Format:** `make format` - Format code with Ruff
 - **Type check:** `make type-check` - Run mypy type checking
@@ -76,12 +92,12 @@ Use `make help` to see all available commands, or run directly:
 ### Project Structure
 ```
 ├── src/                        # Source code
-│   └── placeholder/            # Placeholder package (rename as needed)
-│       ├── __init__.py         # Package initialization
-│       └── utils.py            # Example utility functions
+│   └── cli/                    # CLI package
+│       ├── __init__.py         # Package initialization with version
+│       └── cli.py              # CLI module with Typer
 ├── tests/                      # Test files
 │   ├── __init__.py
-│   └── test_placeholder.py     # Placeholder test (replace with your tests)
+│   └── test_cli.py             # CLI tests
 ├── docs/                       # Documentation
 │   ├── index.md
 │   └── api.md
@@ -97,6 +113,33 @@ Use `make help` to see all available commands, or run directly:
 ├── CHANGELOG.md                # Version history
 └── README.md
 ```
+
+### CLI Usage
+
+The template includes a basic CLI built with Typer:
+
+```bash
+# Show project information
+poetry run python-template
+
+# Show help
+poetry run python-template --help
+
+# Run application (multiple ways)
+make run                           # Default package name
+make run ARGS="--help"             # With arguments
+make run <package-name>            # Run a specific package
+make debug                         # Debug mode
+make debug <package-name>          # Debug a specific package
+```
+
+The CLI provides:
+- Project information and version display
+- Automatic help generation
+- Clean, professional output formatting
+- Flexible Makefile with configurable package names and argument passing
+
+**Note:** The CLI module is specific to this template. For other application types, update the `MAIN_MODULE` and `MAIN_FUNCTION` variables in the Makefile to point to your application's entry point.
 
 
 ### Security
@@ -133,9 +176,9 @@ This project uses [Commitizen](https://commitizen-tools.github.io/commitizen/) f
 ### Versioning Commands
 - `make version` - Show current version
 - `make bump` - Auto-bump based on conventional commits
-- `make patch` - Manual patch version bump (0.0.0 → 0.0.1)
-- `make minor` - Manual minor version bump (0.0.0 → 0.1.0)
-- `make major` - Manual major version bump (0.0.0 → 1.0.0)
+- `make bump-patch` - Manual patch version bump (0.0.0 → 0.0.1)
+- `make bump-minor` - Manual minor version bump (0.0.0 → 0.1.0)
+- `make bump-major` - Manual major version bump (0.0.0 → 1.0.0)
 
 ### Commit Format
 ```

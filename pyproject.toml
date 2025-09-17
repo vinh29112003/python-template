@@ -12,6 +12,7 @@ packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.10,<4.0"
+typer = "^0.12.0"
 
 [tool.poetry.group.dev.dependencies]
 # Linting and formatting
@@ -36,8 +37,7 @@ mkdocs-material = "^9.6.20"
 mkdocstrings = {extras = ["python"], version = "^0.26.0"}
 
 [tool.poetry.scripts]
-# Add CLI scripts here
-# my-script = "src.placeholder.module:main"
+python-template = "src.cli.cli:main"
 
 # Ruff configuration
 [tool.ruff]
@@ -209,5 +209,5 @@ update_changelog_on_bump = true
 changelog_file = "CHANGELOG.md"
 version_files = [
   "pyproject.toml:version",
-  "src/placeholder/__init__.py:__version__"
+  "src/cli/__init__.py:__version__"
 ]

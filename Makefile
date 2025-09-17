@@ -1,4 +1,4 @@
-.PHONY: help install test test-cov lint format type-check clean build publish docs serve-docs version bump patch minor major
+.PHONY: help install test test-cov lint format type-check clean build publish docs serve-docs version bump bump-major bump-minor bump-patch
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -58,21 +58,21 @@ bump: ## Bump version based on conventional commits
 	@git tag $(shell poetry version --short | sed 's/^/v/')
 	@echo "Version bumped and committed. Don't forget to push with: git push --follow-tags"
 
-patch: ## Bump patch version (0.1.0 -> 0.1.1)
+bump-patch: ## Bump patch version (0.0.0 -> 0.0.1)
 	@poetry run cz bump --increment PATCH --changelog
 	@git add pyproject.toml src/placeholder/__init__.py CHANGELOG.md
 	@git commit -m "chore: bump version to $(shell poetry version --short)"
 	@git tag $(shell poetry version --short | sed 's/^/v/')
 	@echo "Patch version bumped and committed. Don't forget to push with: git push --follow-tags"
 
-minor: ## Bump minor version (0.1.0 -> 0.2.0)
+bump-minor: ## Bump minor version (0.0.0 -> 0.1.0)
 	@poetry run cz bump --increment MINOR --changelog
 	@git add pyproject.toml src/placeholder/__init__.py CHANGELOG.md
 	@git commit -m "chore: bump version to $(shell poetry version --short)"
 	@git tag $(shell poetry version --short | sed 's/^/v/')
 	@echo "Minor version bumped and committed. Don't forget to push with: git push --follow-tags"
 
-major: ## Bump major version (0.1.0 -> 1.0.0)
+bump-major: ## Bump major version (0.0.0 -> 1.0.0)
 	@poetry run cz bump --increment MAJOR --changelog
 	@git add pyproject.toml src/placeholder/__init__.py CHANGELOG.md
 	@git commit -m "chore: bump version to $(shell poetry version --short)"

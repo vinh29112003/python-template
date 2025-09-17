@@ -37,7 +37,7 @@ mkdocs-material = "^9.6.20"
 mkdocstrings = {extras = ["python"], version = "^0.26.0"}
 
 [tool.poetry.scripts]
-python-template = "src.cli.cli:main"
+python-template = "src.cli.main:main"
 
 # Ruff configuration
 [tool.ruff]

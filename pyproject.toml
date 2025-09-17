@@ -44,7 +44,21 @@ mkdocstrings = {extras = ["python"], version = "^0.26.0"}
 target-version = "py310"
 line-length = 88
 indent-width = 2
-exclude = ["README.md", "CHANGELOG.md", "docs/"]
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+    "README.md",
+    "CHANGELOG.md",
+    "docs/",
+    "site/",
+]
 
 [tool.ruff.lint]
 select = [
@@ -62,19 +76,56 @@ select = [
     "RUF",    # Ruff-specific rules
     "N",      # pep8-naming
     "S",      # flake8-bandit (security)
+    "A",      # flake8-builtins
+    "COM",    # flake8-commas
+    "DTZ",    # flake8-datetimez
+    "EM",     # flake8-errmsg
+    "G",      # flake8-logging-format
+    "PIE",    # flake8-pie
+    "T20",    # flake8-print
+    "TID",    # flake8-tidy-imports
+    "ARG",    # flake8-unused-arguments
+    "PTH",    # flake8-use-pathlib
+    "ERA",    # eradicate
+    "PL",     # pylint
+    "TRY",    # tryceratops
 ]
 ignore = [
-    "E501", # line too long, handled by formatter
-    "B008", # do not perform function calls in argument defaults
-    "C901", # too complex
+    "E501",   # line too long, handled by formatter
+    "B008",   # do not perform function calls in argument defaults
+    "C901",   # too complex
+    "PLR0913", # too many arguments
+    "PLR0912", # too many branches
+    "PLR0915", # too many statements
+    "PLR2004", # magic value used in comparison
+    "TRY003", # avoid specifying long messages outside exception class
+    "COM812", # missing trailing comma
+    "ISC001", # implicitly concatenated string literals
+    "Q000",   # single quotes found but double quotes preferred
+    "Q001",   # single quote multiline found but double quotes preferred
+    "Q002",   # single quote docstring found but double quotes preferred
+    "Q003",   # change outer quotes to avoid escaping inner quotes
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"]
-"tests/**/*.py" = ["S101"]
+"__init__.py" = ["F401", "F403"]
+"tests/**/*.py" = [
+    "S101",   # use of assert detected
+    "PLR2004", # magic value used in comparison
+    "ARG001", # unused function argument
+    "ARG002", # unused method argument
+    "ARG003", # unused class method argument
+    "ARG004", # unused static method argument
+    "ARG005", # unused lambda argument
+]
+"**/migrations/**/*.py" = ["ALL"]
+"scripts/**/*.py" = ["T20"]  # allow print statements in scripts
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
+known-third-party = ["pytest", "poetry"]
+force-sort-within-sections = true
+split-on-trailing-comma = true
 
 # MyPy configuration
 [tool.mypy]
@@ -84,7 +135,7 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 check_untyped_defs = true
-disallow_untyped_decorators = true
+disallow_untyped_decorators = false  # More lenient for decorators
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
@@ -92,9 +143,32 @@ warn_no_return = true
 warn_unreachable = true
 strict_equality = true
 show_error_codes = true
+# More lenient settings for better adoption
+disallow_any_generics = false
+disallow_subclassing_any = false
+disallow_untyped_calls = false
+disallow_any_unimported = false
+disallow_any_expr = false
+disallow_any_decorated = false
+disallow_any_explicit = false
+# Allow some flexibility
+allow_redefinition = false
+allow_untyped_globals = false
+# Show more helpful information
+show_column_numbers = true
+show_error_context = true
+pretty = true
+color_output = true
+error_summary = true
 
 [[tool.mypy.overrides]]
 module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "scripts.*"
 disallow_untyped_defs = false
 
 # Pytest configuration

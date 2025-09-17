@@ -10,7 +10,7 @@
 [![Make](https://img.shields.io/badge/Make-FF8C00?logo=gnu&logoColor=white)](https://www.gnu.org/software/make/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white)](LICENSE)
 
-A production-ready Python project template with modern tooling, automated testing, security scanning, documentation generation, and CLI functionality.
+A Python project template with modern tooling, automated testing, security scanning, documentation generation, and CLI functionality.
 
 ## Includes
 
@@ -59,7 +59,6 @@ A production-ready Python project template with modern tooling, automated testin
    make run                    # Run with default package name
    make run ARGS="--help"      # Run with arguments
    make debug                  # Run in debug mode
-   make run <package-name>     # Run a specific package
    ```
 
 ## Requirements
@@ -78,8 +77,6 @@ Use `make help` to see all available commands, or run directly:
 - **Test with coverage:** `make test-cov` - Run tests with coverage report
 - **Run:** `make run` - Run the application
 - **Debug:** `make debug` - Run in debug mode
-- **Run package:** `make run <package-name>` - Run with specific package name
-- **Debug package:** `make debug <package-name>` - Debug with specific package name
 - **Lint:** `make lint` - Run Ruff linter
 - **Format:** `make format` - Format code with Ruff
 - **Type check:** `make type-check` - Run mypy type checking
@@ -94,7 +91,7 @@ Use `make help` to see all available commands, or run directly:
 ├── src/                        # Source code
 │   └── cli/                    # CLI package
 │       ├── __init__.py         # Package initialization with version
-│       └── cli.py              # CLI module with Typer
+│       └── main.py             # CLI module with Typer
 ├── tests/                      # Test files
 │   ├── __init__.py
 │   └── test_cli.py             # CLI tests
@@ -116,7 +113,7 @@ Use `make help` to see all available commands, or run directly:
 
 ### CLI Usage
 
-The template includes a basic CLI built with Typer:
+The template includes a CLI built with Typer:
 
 ```bash
 # Show project information
@@ -128,19 +125,17 @@ poetry run python-template --help
 # Run application (multiple ways)
 make run                           # Default package name
 make run ARGS="--help"             # With arguments
-make run <package-name>            # Run a specific package
 make debug                         # Debug mode
-make debug <package-name>          # Debug a specific package
 ```
 
-The CLI provides:
-- Project information and version display
-- Automatic help generation
-- Clean, professional output formatting
-- Flexible Makefile with configurable package names and argument passing
+### Makefile
 
-**Note:** The CLI module is specific to this template. For other application types, update the `MAIN_MODULE` and `MAIN_FUNCTION` variables in the Makefile to point to your application's entry point.
+The Makefile provides commands for installing dependencies, running tests, linting, formatting, building, publishing, and managing versioning.
 
+- **Configurable**: Update `MAIN_MODULE` and `MAIN_FUNCTION` in Makefile for different entry points
+- **Flexible**: Supports running any package with `make run <package-name>`
+- **Consistent**: Same commands work regardless of application type
+- **Extensible**: Easy to add new targets for different project needs
 
 ### Security
 
@@ -152,9 +147,9 @@ The project includes security scanning tools:
 ## IDE Support
 
 ### VS Code
-- **Settings**: Pre-configured in `.vscode/settings.json` with 2-space indentation, Ruff integration
-- **Extensions**: Recommended extensions in `.vscode/extensions.json`
-- **Python**: Configured to use Ruff for linting and formatting
+- **Settings**: Configuration in `.vscode/settings.json` with 2-space indentation, Ruff integration
+- **Extensions**: Extension recommendations in `.vscode/extensions.json`
+- **Python**: Uses Ruff for linting and formatting
 
 ### pyenv
 - **Python Version**: Specified in `.python-version` (3.10)
@@ -166,19 +161,19 @@ All tools are configured in `pyproject.toml`. See the file for specific settings
 
 ## Versioning and Changelog
 
-This project uses [Commitizen](https://commitizen-tools.github.io/commitizen/) for automated versioning and changelog generation.
+The project uses [Commitizen](https://commitizen-tools.github.io/commitizen/) for automated versioning and changelog generation.
 
 - **Versioning**: Follows [Semantic Versioning](https://semver.org/) (MAJOR.MINOR.PATCH)
-- **Changelog**: Automatically generated from commit messages
+- **Changelog**: Generated from commit messages
 - **Commits**: Use [Conventional Commits](https://www.conventionalcommits.org/) format
 - **Releases**: Independent of CI/CD platforms
 
 ### Versioning Commands
 - `make version` - Show current version
-- `make bump` - Auto-bump based on conventional commits
-- `make bump-patch` - Manual patch version bump (0.0.0 → 0.0.1)
-- `make bump-minor` - Manual minor version bump (0.0.0 → 0.1.0)
-- `make bump-major` - Manual major version bump (0.0.0 → 1.0.0)
+- `make bump` - Bump version based on conventional commits
+- `make bump-patch` - Patch version bump (0.0.0 → 0.0.1)
+- `make bump-minor` - Minor version bump (0.0.0 → 0.1.0)
+- `make bump-major` - Major version bump (0.0.0 → 1.0.0)
 
 ### Commit Format
 ```

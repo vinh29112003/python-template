@@ -133,9 +133,9 @@ This project uses [Commitizen](https://commitizen-tools.github.io/commitizen/) f
 ### Versioning Commands
 - `make version` - Show current version
 - `make bump` - Auto-bump based on conventional commits
-- `make patch` - Manual patch version bump (0.0.0 → 0.0.1)
-- `make minor` - Manual minor version bump (0.0.0 → 0.1.0)
-- `make major` - Manual major version bump (0.0.0 → 1.0.0)
+- `make bump-patch` - Manual patch version bump (0.0.0 → 0.0.1)
+- `make bump-minor` - Manual minor version bump (0.0.0 → 0.1.0)
+- `make bump-major` - Manual major version bump (0.0.0 → 1.0.0)
 
 ### Commit Format
 ```

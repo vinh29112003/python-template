@@ -52,8 +52,8 @@ A Python project template with modern tooling, automated testing, security scann
 
 1. Clone and customize:
    ```bash
-   git clone <this-repo> my-new-project
-   cd my-new-project
+   git clone https://github.com/madebyjake/python-template.git <project-name>
+   cd <project-name>
    # Update pyproject.toml with your project details
    ```
 

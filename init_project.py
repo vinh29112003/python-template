@@ -50,6 +50,7 @@ class ProjectConfig:
   commit_msg: str
   keep_mkdocs: bool
   cleanup_template: bool
+  install_dependencies: bool
 
 
 def print_banner() -> None:
@@ -183,6 +184,19 @@ def get_user_input() -> ProjectConfig:
   )
   cleanup_template = cleanup_choice == 1
 
+  # Prompt for dependency installation
+  print()
+  print("📦 Dependency installation:")
+  print("1. Run 'poetry install' now (recommended)")
+  print("2. Skip dependency installation")
+
+  install_choice = get_choice_input(
+    "Install dependencies now? (1 or 2):",
+    ["Install dependencies", "Skip installation"],
+    "Please enter 1 or 2.",
+  )
+  install_dependencies = install_choice == 1
+
   return ProjectConfig(
     name=project_name,
     description=project_description,
@@ -190,6 +204,7 @@ def get_user_input() -> ProjectConfig:
     commit_msg=commit_msg,
     keep_mkdocs=keep_mkdocs,
     cleanup_template=cleanup_template,
+    install_dependencies=install_dependencies,
   )
 
 
@@ -204,6 +219,7 @@ def confirm_changes(config: ProjectConfig) -> bool:
   print(f"Commit message: {config.commit_msg}")
   print(f"Keep MkDocs: {'Yes' if config.keep_mkdocs else 'No'}")
   print(f"Cleanup template files: {'Yes' if config.cleanup_template else 'No'}")
+  print(f"Install dependencies: {'Yes' if config.install_dependencies else 'No'}")
   print("=" * 40)
   print()
 
@@ -351,6 +367,22 @@ class FileUpdater:
         print(f"🗑️  Removed template file: {file_path}")
 
 
+def install_dependencies() -> None:
+  """Install project dependencies using poetry."""
+  print()
+  print("📦 Installing dependencies...")
+  
+  try:
+    subprocess.run(["poetry", "install"], check=True)
+    print("✅ Dependencies installed successfully")
+  except subprocess.CalledProcessError as e:
+    print(f"❌ Failed to install dependencies: {e}")
+    print("💡 You can run 'poetry install' manually later.")
+  except FileNotFoundError:
+    print("❌ Poetry not found. Please install Poetry first.")
+    print("💡 Visit: https://python-poetry.org/docs/#installation")
+
+
 def create_clean_git_history(commit_msg: str) -> None:
   """Create a clean git history with a single initial commit."""
   print()
@@ -373,7 +405,7 @@ def create_clean_git_history(commit_msg: str) -> None:
   print(f"✅ Created initial commit: '{commit_msg}'")
 
 
-def show_next_steps(project_name: str, keep_mkdocs: bool) -> None:
+def show_next_steps(project_name: str, keep_mkdocs: bool, dependencies_installed: bool) -> None:
   """Show next steps to the user."""
   print()
   print("🎉 Project initialization complete!")
@@ -381,29 +413,39 @@ def show_next_steps(project_name: str, keep_mkdocs: bool) -> None:
   print()
   print("Next steps:")
   print()
-  print("1. 📦 Install dependencies:")
-  print("   poetry install")
-  print()
-  print("2. 🔧 Set up pre-commit hooks:")
+
+  step_num = 1
+
+  if not dependencies_installed:
+    print(f"{step_num}. 📦 Install dependencies:")
+    print("   poetry install")
+    print()
+    step_num += 1
+
+  print(f"{step_num}. 🔧 Set up pre-commit hooks:")
   print("   poetry run pre-commit install")
   print()
-  print("3. 🧪 Run tests:")
+  step_num += 1
+
+  print(f"{step_num}. 🧪 Run tests:")
   print("   poetry run pytest")
   print("   # or use: make test")
   print()
-  print("4. 🚀 Run your application:")
+  step_num += 1
+
+  print(f"{step_num}. 🚀 Run your application:")
   print(f"   poetry run {project_name}")
   print("   # or use: make run")
   print()
+  step_num += 1
 
   if keep_mkdocs:
-    print("5. 📚 Build documentation:")
+    print(f"{step_num}. 📚 Build documentation:")
     print("   make docs")
     print()
-    print("6. 🔗 Add remote repository (optional):")
-  else:
-    print("5. 🔗 Add remote repository (optional):")
+    step_num += 1
 
+  print(f"{step_num}. 🔗 Add remote repository (optional):")
   print("   git remote add origin <your-repo-url>")
   print("   git push -u origin main")
   print()
@@ -448,11 +490,17 @@ def main() -> None:
     if config.cleanup_template:
       FileUpdater.cleanup_template_files()
 
+    # Install dependencies if requested
+    dependencies_installed = False
+    if config.install_dependencies:
+      install_dependencies()
+      dependencies_installed = True
+
     # Create clean git history
     create_clean_git_history(config.commit_msg)
 
     # Display next steps
-    show_next_steps(config.name, config.keep_mkdocs)
+    show_next_steps(config.name, config.keep_mkdocs, dependencies_installed)
 
   except KeyboardInterrupt:
     print("\n❌ Initialization cancelled by user.")

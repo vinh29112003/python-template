@@ -197,7 +197,7 @@ def get_user_input() -> ProjectConfig:
   # Prompt for dependency installation
   print()
   print("📦 Dependency installation:")
-  print("1. Run 'poetry install' now (recommended)")
+  print("1. Run 'uv sync' now (recommended)")
   print("2. Skip dependency installation")
 
   install_choice = get_choice_input(
@@ -307,7 +307,7 @@ class FileUpdater:
     """Update README.md with new project name."""
     replacements = [
       (r"# Python Project Template", f"# {config.name.replace('-', ' ').title()}"),
-      (r"poetry run python-template", f"poetry run {config.name}"),
+      (r"poetry run python-template", f"uv run {config.name}"),
       (r"make run\s+# Default package name", f"make run  # Run {config.name}"),
     ]
     FileUpdater.update_file("README.md", replacements)
@@ -409,19 +409,19 @@ class FileUpdater:
 
 
 def install_dependencies() -> None:
-  """Install project dependencies using poetry."""
+  """Install project dependencies using uv."""
   print()
   print("📦 Installing dependencies...")
 
   try:
-    subprocess.run(["poetry", "install"], check=True)
+    subprocess.run(["uv", "sync", "--extra", "dev"], check=True)
     print("✅ Dependencies installed successfully")
   except subprocess.CalledProcessError as e:
     print(f"❌ Failed to install dependencies: {e}")
-    print("💡 You can run 'poetry install' manually later.")
+    print("💡 You can run 'uv sync' manually later.")
   except FileNotFoundError:
-    print("❌ Poetry not found. Please install Poetry first.")
-    print("💡 Visit: https://python-poetry.org/docs/#installation")
+    print("❌ uv not found. Please install uv first.")
+    print("💡 Visit: https://docs.astral.sh/uv/getting-started/installation/")
 
 
 def create_clean_git_history(commit_msg: str) -> None:
@@ -461,23 +461,23 @@ def show_next_steps(
 
   if not dependencies_installed:
     print(f"{step_num}. 📦 Install dependencies:")
-    print("   poetry install")
+    print("   uv sync --extra dev")
     print()
     step_num += 1
 
   print(f"{step_num}. 🔧 Set up pre-commit hooks:")
-  print("   poetry run pre-commit install")
+  print("   uv run pre-commit install")
   print()
   step_num += 1
 
   print(f"{step_num}. 🧪 Run tests:")
-  print("   poetry run pytest")
+  print("   uv run pytest")
   print("   # or use: make test")
   print()
   step_num += 1
 
   print(f"{step_num}. 🚀 Run your application:")
-  print(f"   poetry run {project_name}")
+  print(f"   uv run {project_name}")
   print("   # or use: make run")
   print()
   step_num += 1

@@ -4,7 +4,7 @@ SCRIPT_NAME ?= python-template
 MAIN_MODULE ?= main
 MAIN_FUNCTION ?= main
 
-.PHONY: help install test test-cov run debug run-pkg debug-pkg lint format type-check clean build publish docs serve-docs version bump bump-major bump-minor bump-patch
+.PHONY: help install install-dev test test-cov run debug run-pkg debug-pkg lint format type-check clean build publish docs serve-docs version bump bump-major bump-minor bump-patch lock sync add remove tree
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -12,6 +12,30 @@ help: ## Show this help message
 
 install: ## Install dependencies
 	uv sync
+
+install-dev: ## Install all dependencies including dev
+	uv sync --extra dev
+
+lock: ## Lock dependencies
+	uv lock
+
+sync: ## Sync dependencies with lockfile
+	uv sync
+
+add: ## Add a dependency (usage: make add PACKAGE=package-name)
+	uv add $(PACKAGE)
+
+remove: ## Remove a dependency (usage: make remove PACKAGE=package-name)
+	uv remove $(PACKAGE)
+
+tree: ## Show dependency tree
+	uv tree
+
+setup: ## Complete development setup
+	@echo "Setting up development environment..."
+	uv sync --extra dev
+	uv run pre-commit install
+	@echo "Development environment ready!"
 
 test: ## Run tests
 	uv run pytest
@@ -46,6 +70,29 @@ type-check: ## Run type checking
 	uv run mypy src/
 
 check: lint type-check test ## Run all checks
+
+check-fast: lint ## Run fast checks (lint only)
+	@echo "Running fast checks..."
+
+check-full: lint type-check test test-cov ## Run all checks including coverage
+	@echo "Running full checks with coverage..."
+
+format-check: ## Check if code is formatted correctly
+	uv run ruff format --check .
+
+format-fix: ## Format code and fix issues
+	uv run ruff format .
+	uv run ruff check --fix .
+
+benchmark: ## Benchmark linting and formatting performance
+	@echo "Benchmarking Ruff performance..."
+	@time uv run ruff check .
+	@echo "Benchmarking Ruff formatting..."
+	@time uv run ruff format --check .
+
+profile: ## Profile dependency resolution
+	@echo "Profiling UV dependency resolution..."
+	uv lock --verbose
 
 clean: ## Clean up build artifacts
 	rm -rf build/

@@ -371,7 +371,7 @@ def install_dependencies() -> None:
   """Install project dependencies using poetry."""
   print()
   print("📦 Installing dependencies...")
-  
+
   try:
     subprocess.run(["poetry", "install"], check=True)
     print("✅ Dependencies installed successfully")
@@ -405,7 +405,9 @@ def create_clean_git_history(commit_msg: str) -> None:
   print(f"✅ Created initial commit: '{commit_msg}'")
 
 
-def show_next_steps(project_name: str, keep_mkdocs: bool, dependencies_installed: bool) -> None:
+def show_next_steps(
+  project_name: str, keep_mkdocs: bool, dependencies_installed: bool
+) -> None:
   """Show next steps to the user."""
   print()
   print("🎉 Project initialization complete!")

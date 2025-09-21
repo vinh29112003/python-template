@@ -45,7 +45,7 @@ def validate_template() -> bool:
   return True
 
 
-def get_user_input() -> tuple[str, str, bool]:
+def get_user_input() -> tuple[str, str, str, str, bool, bool]:
   """Get user input for project customization."""
   print("Let's customize your new project!")
   print()
@@ -68,6 +68,35 @@ def get_user_input() -> tuple[str, str, bool]:
 
     break
 
+  # Collect project description
+  default_description = "A modern Python project"
+  project_description = input(
+    f"📝 Enter project description (default: '{default_description}'): "
+  ).strip()
+  if not project_description:
+    project_description = default_description
+
+  # Collect author information
+  print()
+  while True:
+    author = input(
+      "👤 Enter your name and email (optional, press Enter to skip): "
+    ).strip()
+
+    if not author:
+      break
+
+    # Basic email validation if author is provided
+    if "<" in author and ">" in author:
+      email_part = author.split("<")[1].split(">")[0].strip()
+      if "@" not in email_part or "." not in email_part.split("@")[1]:
+        print(
+          "❌ Invalid email format. Please use 'Name <email@domain.com>' or press Enter to skip."
+        )
+        continue
+
+    break
+
   # Collect commit message
   default_commit = "chore: initialize repository"
   commit_msg = input(
@@ -75,6 +104,19 @@ def get_user_input() -> tuple[str, str, bool]:
   ).strip()
   if not commit_msg:
     commit_msg = default_commit
+
+  # Prompt for MkDocs preference
+  print()
+  print("📚 Documentation options:")
+  print("1. Keep MkDocs (recommended for most projects)")
+  print("2. Remove MkDocs (if you prefer other documentation tools)")
+
+  while True:
+    mkdocs_choice = input("Choose documentation option (1 or 2): ").strip()
+    if mkdocs_choice in ["1", "2"]:
+      keep_mkdocs = mkdocs_choice == "1"
+      break
+    print("❌ Please enter 1 or 2.")
 
   # Prompt for cleanup preference
   print()
@@ -89,11 +131,50 @@ def get_user_input() -> tuple[str, str, bool]:
       break
     print("❌ Please enter 1 or 2.")
 
-  return project_name, commit_msg, cleanup_template
+  return (
+    project_name,
+    project_description,
+    author,
+    commit_msg,
+    keep_mkdocs,
+    cleanup_template,
+  )
 
 
-def update_pyproject_toml(project_name: str) -> None:
-  """Update pyproject.toml with new project name."""
+def confirm_changes(
+  project_name: str,
+  project_description: str,
+  author: str,
+  commit_msg: str,
+  keep_mkdocs: bool,
+  cleanup_template: bool,
+) -> bool:
+  """Display summary and confirm changes before proceeding."""
+  print()
+  print("📋 Summary of changes:")
+  print("=" * 40)
+  print(f"Project name: {project_name}")
+  print(f"Description: {project_description}")
+  print(f"Author: {author if author else 'Not specified'}")
+  print(f"Commit message: {commit_msg}")
+  print(f"Keep MkDocs: {'Yes' if keep_mkdocs else 'No'}")
+  print(f"Cleanup template files: {'Yes' if cleanup_template else 'No'}")
+  print("=" * 40)
+  print()
+
+  while True:
+    confirm = input("Proceed with initialization? (y/N): ").strip().lower()
+    if confirm in ["y", "yes"]:
+      return True
+    elif confirm in ["n", "no", ""]:
+      return False
+    print("❌ Please enter 'y' for yes or 'n' for no.")
+
+
+def update_pyproject_toml(
+  project_name: str, project_description: str, author: str
+) -> None:
+  """Update pyproject.toml with new project details."""
   pyproject_path = Path("pyproject.toml")
   content = pyproject_path.read_text()
 
@@ -103,15 +184,11 @@ def update_pyproject_toml(project_name: str) -> None:
   # Replace description
   content = re.sub(
     r'description = "A modern Python project template"',
-    'description = "A modern Python project"',
+    f'description = "{project_description}"',
     content,
   )
 
-  # Replace author information
-  print()
-  author = input(
-    "👤 Enter your name and email (e.g., 'John Doe <john@example.com>'): "
-  ).strip()
+  # Replace author information if provided
   if author:
     content = re.sub(
       r'authors = \["Your Name <your\.email@example\.com>"\]',
@@ -120,7 +197,7 @@ def update_pyproject_toml(project_name: str) -> None:
     )
 
   pyproject_path.write_text(content)
-  print(f"✅ Updated pyproject.toml with project name: {project_name}")
+  print("✅ Updated pyproject.toml with project details")
 
 
 def update_makefile(project_name: str) -> None:
@@ -178,6 +255,98 @@ def update_cli_script(project_name: str) -> None:
   print(f"✅ Updated CLI script name to: {project_name}")
 
 
+def update_cli_module(project_name: str, project_description: str) -> None:
+  """Update the CLI module with project details."""
+  cli_path = Path("src/cli/main.py")
+  content = cli_path.read_text()
+
+  # Replace project name
+  content = re.sub(
+    r'PROJECT_NAME = "python-template"',
+    f'PROJECT_NAME = "{project_name}"',
+    content,
+  )
+
+  # Replace project description
+  content = re.sub(
+    r'PROJECT_DESCRIPTION = "A modern Python project template"',
+    f'PROJECT_DESCRIPTION = "{project_description}"',
+    content,
+  )
+
+  cli_path.write_text(content)
+  print("✅ Updated CLI module with project details")
+
+
+def update_mkdocs_config(
+  project_name: str, project_description: str, author: str
+) -> None:
+  """Update mkdocs.yml with project details."""
+  mkdocs_path = Path("mkdocs.yml")
+  content = mkdocs_path.read_text()
+
+  # Replace site name
+  content = re.sub(
+    r"site_name: Python Project Template",
+    f"site_name: {project_name.replace('-', ' ').title()}",
+    content,
+  )
+
+  # Replace site description
+  content = re.sub(
+    r"site_description: A modern Python project template with best practices",
+    f"site_description: {project_description} with best practices",
+    content,
+  )
+
+  # Replace site author if provided
+  if author:
+    content = re.sub(
+      r"site_author: Your Name",
+      f"site_author: {author.split('<')[0].strip()}",
+      content,
+    )
+
+  # Replace repo URLs
+  content = re.sub(
+    r"site_url: https://your-username\.github\.io/python-template",
+    f"site_url: https://your-username.github.io/{project_name}",
+    content,
+  )
+
+  content = re.sub(
+    r"repo_name: your-username/python-template",
+    f"repo_name: your-username/{project_name}",
+    content,
+  )
+
+  content = re.sub(
+    r"repo_url: https://github\.com/your-username/python-template",
+    f"repo_url: https://github.com/your-username/{project_name}",
+    content,
+  )
+
+  mkdocs_path.write_text(content)
+  print("✅ Updated MkDocs configuration")
+
+
+def remove_mkdocs_files() -> None:
+  """Remove MkDocs-related files."""
+  mkdocs_files = [
+    "mkdocs.yml",
+    "docs/",
+  ]
+
+  for file_path in mkdocs_files:
+    if Path(file_path).exists():
+      if Path(file_path).is_dir():
+        shutil.rmtree(file_path)
+        print(f"🗑️  Removed directory: {file_path}")
+      else:
+        Path(file_path).unlink()
+        print(f"🗑️  Removed file: {file_path}")
+
+
 def cleanup_template_files() -> None:
   """Remove template-specific files."""
   files_to_remove = [
@@ -213,7 +382,7 @@ def create_clean_git_history(commit_msg: str) -> None:
   print(f"✅ Created initial commit: '{commit_msg}'")
 
 
-def show_next_steps(project_name: str) -> None:
+def show_next_steps(project_name: str, keep_mkdocs: bool) -> None:
   """Show next steps to the user."""
   print()
   print("🎉 Project initialization complete!")
@@ -235,10 +404,15 @@ def show_next_steps(project_name: str) -> None:
   print(f"   poetry run {project_name}")
   print("   # or use: make run")
   print()
-  print("5. 📚 Build documentation:")
-  print("   make docs")
-  print()
-  print("6. 🔗 Add remote repository (optional):")
+
+  if keep_mkdocs:
+    print("5. 📚 Build documentation:")
+    print("   make docs")
+    print()
+    print("6. 🔗 Add remote repository (optional):")
+  else:
+    print("5. 🔗 Add remote repository (optional):")
+
   print("   git remote add origin <your-repo-url>")
   print("   git push -u origin main")
   print()
@@ -254,7 +428,21 @@ def main() -> None:
     sys.exit(1)
 
   # Collect user input
-  project_name, commit_msg, cleanup_template = get_user_input()
+  (
+    project_name,
+    project_description,
+    author,
+    commit_msg,
+    keep_mkdocs,
+    cleanup_template,
+  ) = get_user_input()
+
+  # Confirm changes before proceeding
+  if not confirm_changes(
+    project_name, project_description, author, commit_msg, keep_mkdocs, cleanup_template
+  ):
+    print("❌ Initialization cancelled.")
+    sys.exit(0)
 
   print()
   print("🔄 Initializing project...")
@@ -262,10 +450,17 @@ def main() -> None:
 
   try:
     # Update configuration files
-    update_pyproject_toml(project_name)
+    update_pyproject_toml(project_name, project_description, author)
     update_makefile(project_name)
     update_readme(project_name)
     update_cli_script(project_name)
+    update_cli_module(project_name, project_description)
+
+    # Update or remove MkDocs based on user preference
+    if keep_mkdocs:
+      update_mkdocs_config(project_name, project_description, author)
+    else:
+      remove_mkdocs_files()
 
     # Remove template files if requested
     if cleanup_template:
@@ -275,10 +470,22 @@ def main() -> None:
     create_clean_git_history(commit_msg)
 
     # Display next steps
-    show_next_steps(project_name)
+    show_next_steps(project_name, keep_mkdocs)
 
+  except KeyboardInterrupt:
+    print("\n❌ Initialization cancelled by user.")
+    sys.exit(1)
+  except subprocess.CalledProcessError as e:
+    print(f"❌ Git command failed: {e}")
+    print("💡 Make sure git is installed and you have write permissions.")
+    sys.exit(1)
+  except PermissionError as e:
+    print(f"❌ Permission error: {e}")
+    print("💡 Make sure you have write permissions to the current directory.")
+    sys.exit(1)
   except Exception as e:
-    print(f"❌ Error during initialization: {e}")
+    print(f"❌ Unexpected error during initialization: {e}")
+    print("💡 Please check the error message and try again.")
     sys.exit(1)
 
 

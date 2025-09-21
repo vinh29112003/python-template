@@ -19,6 +19,14 @@ TEMPLATE_DESCRIPTION = "A modern Python project template"
 DEFAULT_DESCRIPTION = "A modern Python project"
 DEFAULT_COMMIT_MSG = "chore: initialize repository"
 
+# Python version options
+PYTHON_VERSIONS = {
+  "1": "3.10",
+  "2": "3.11",
+  "3": "3.12",
+  "4": "3.13",
+}
+
 # Required files for template validation
 REQUIRED_FILES = [
   "pyproject.toml",
@@ -52,6 +60,7 @@ class ProjectConfig:
   keep_mkdocs: bool
   cleanup_template: bool
   install_dependencies: bool
+  python_version: str
 
 
 def print_banner() -> None:
@@ -198,6 +207,19 @@ def get_user_input() -> ProjectConfig:
   )
   install_dependencies = install_choice == 1
 
+  # Prompt for Python version selection
+  print()
+  print("🐍 Python version selection:")
+  for key, version in PYTHON_VERSIONS.items():
+    print(f"{key}. Python {version}")
+
+  python_choice = get_choice_input(
+    "Choose Python version (1-4):",
+    [f"Python {version}" for version in PYTHON_VERSIONS.values()],
+    "Please enter a number between 1 and 4.",
+  )
+  python_version = list(PYTHON_VERSIONS.values())[python_choice - 1]
+
   return ProjectConfig(
     name=project_name,
     description=project_description,
@@ -206,6 +228,7 @@ def get_user_input() -> ProjectConfig:
     keep_mkdocs=keep_mkdocs,
     cleanup_template=cleanup_template,
     install_dependencies=install_dependencies,
+    python_version=python_version,
   )
 
 
@@ -217,6 +240,7 @@ def confirm_changes(config: ProjectConfig) -> bool:
   print(f"Project name: {config.name}")
   print(f"Description: {config.description}")
   print(f"Author: {config.author if config.author else 'Not specified'}")
+  print(f"Python version: {config.python_version}")
   print(f"Commit message: {config.commit_msg}")
   print(f"Keep MkDocs: {'Yes' if config.keep_mkdocs else 'No'}")
   print(f"Cleanup template files: {'Yes' if config.cleanup_template else 'No'}")
@@ -360,6 +384,22 @@ class FileUpdater:
           print(f"🗑️  Removed file: {file_path}")
 
   @staticmethod
+  def update_python_version(config: ProjectConfig) -> None:
+    """Update Python version in .python-version and pyproject.toml."""
+    # Update .python-version file
+    Path(".python-version").write_text(f"{config.python_version}\n")
+    print(f"✅ Updated .python-version to Python {config.python_version}")
+
+    # Update pyproject.toml Python version constraint
+    replacements = [
+      (
+        r'python = "\^3\.10,<4\.0"',
+        f'python = "^{config.python_version},<4.0"',
+      ),
+    ]
+    FileUpdater.update_file("pyproject.toml", replacements)
+
+  @staticmethod
   def cleanup_template_files() -> None:
     """Remove template-specific files."""
     for file_path in TEMPLATE_CLEANUP_FILES:
@@ -482,6 +522,7 @@ def main() -> None:
     FileUpdater.update_readme(config)
     FileUpdater.update_cli_script(config)
     FileUpdater.update_cli_module(config)
+    FileUpdater.update_python_version(config)
 
     # Update or remove MkDocs based on user preference
     if config.keep_mkdocs:

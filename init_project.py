@@ -31,6 +31,7 @@ REQUIRED_FILES = [
 TEMPLATE_CLEANUP_FILES = [
   "init_project.py",
   "CHANGELOG.md",
+  "LICENSE",
 ]
 
 # MkDocs files to remove if not keeping

@@ -11,39 +11,39 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 install: ## Install dependencies
-	poetry install
+	uv sync
 
 test: ## Run tests
-	poetry run pytest
+	uv run pytest
 
 test-cov: ## Run tests with coverage
-	poetry run pytest --cov=src --cov-report=term-missing
+	uv run pytest --cov=src --cov-report=term-missing
 
 run: ## Run the application (usage: make run [package] [ARGS="--help"])
 	@if [ -n "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
-		PYTHONPATH=src poetry run python -c "from $(filter-out $@,$(MAKECMDGOALS)).$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
+		uv run python -c "from $(filter-out $@,$(MAKECMDGOALS)).$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
 	else \
-		poetry run $(SCRIPT_NAME) $(ARGS); \
+		uv run $(SCRIPT_NAME) $(ARGS); \
 	fi
 
 debug: ## Run in debug mode (usage: make debug [package] [ARGS="--help"])
 	@if [ -n "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
-		PYTHONPATH=src poetry run python -c "from $(filter-out $@,$(MAKECMDGOALS)).$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
+		uv run python -c "from $(filter-out $@,$(MAKECMDGOALS)).$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
 	else \
-		PYTHONPATH=src poetry run python -c "from cli.$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
+		uv run python -c "from cli.$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
 	fi
 
 %:
 	@:
 
 lint: ## Run linting
-	poetry run ruff check .
+	uv run ruff check .
 
 format: ## Format code
-	poetry run ruff format .
+	uv run ruff format .
 
 type-check: ## Run type checking
-	poetry run mypy src/
+	uv run mypy src/
 
 check: lint type-check test ## Run all checks
 
@@ -60,44 +60,44 @@ clean: ## Clean up build artifacts
 	find . -type f -name "*.pyc" -delete
 
 build: clean ## Build the package
-	poetry build
+	uv build
 
 publish: ## Publish to PyPI
-	poetry publish
+	uv publish
 
 docs: ## Build documentation
-	poetry run mkdocs build
+	uv run mkdocs build
 
 serve-docs: ## Serve documentation locally
-	poetry run mkdocs serve
+	uv run mkdocs serve
 
 version: ## Show current version
-	@poetry version --short
+	@uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])"
 
 bump: ## Bump version based on conventional commits
-	@poetry run cz bump --changelog
+	@uv run cz bump --changelog
 	@git add pyproject.toml src/cli/__init__.py CHANGELOG.md
-	@git commit -m "chore: bump version to $(shell poetry version --short)"
-	@git tag $(shell poetry version --short | sed 's/^/v/')
+	@git commit -m "chore: bump version to $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])")"
+	@git tag $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])" | sed 's/^/v/')
 	@echo "Version bumped and committed. Don't forget to push with: git push --follow-tags"
 
 bump-patch: ## Bump patch version (0.0.0 -> 0.0.1)
-	@poetry run cz bump --increment PATCH --changelog
+	@uv run cz bump --increment PATCH --changelog
 	@git add pyproject.toml src/cli/__init__.py CHANGELOG.md
-	@git commit -m "chore: bump version to $(shell poetry version --short)"
-	@git tag $(shell poetry version --short | sed 's/^/v/')
+	@git commit -m "chore: bump version to $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])")"
+	@git tag $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])" | sed 's/^/v/')
 	@echo "Patch version bumped and committed. Don't forget to push with: git push --follow-tags"
 
 bump-minor: ## Bump minor version (0.0.0 -> 0.1.0)
-	@poetry run cz bump --increment MINOR --changelog
+	@uv run cz bump --increment MINOR --changelog
 	@git add pyproject.toml src/cli/__init__.py CHANGELOG.md
-	@git commit -m "chore: bump version to $(shell poetry version --short)"
-	@git tag $(shell poetry version --short | sed 's/^/v/')
+	@git commit -m "chore: bump version to $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])")"
+	@git tag $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])" | sed 's/^/v/')
 	@echo "Minor version bumped and committed. Don't forget to push with: git push --follow-tags"
 
 bump-major: ## Bump major version (0.0.0 -> 1.0.0)
-	@poetry run cz bump --increment MAJOR --changelog
+	@uv run cz bump --increment MAJOR --changelog
 	@git add pyproject.toml src/cli/__init__.py CHANGELOG.md
-	@git commit -m "chore: bump version to $(shell poetry version --short)"
-	@git tag $(shell poetry version --short | sed 's/^/v/')
+	@git commit -m "chore: bump version to $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])")"
+	@git tag $(shell uv run python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])" | sed 's/^/v/')
 	@echo "Major version bumped and committed. Don't forget to push with: git push --follow-tags"

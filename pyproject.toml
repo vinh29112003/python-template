@@ -46,11 +46,26 @@ python-template = "src.cli.main:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
 
+# UV configuration
+[tool.uv]
+# Index configuration for better performance
+index-url = "https://pypi.org/simple"
+# Use faster resolver
+resolution = "highest"
+# Cache packages globally for better performance
+cache-dir = "~/.cache/uv"
+
+# UV workspace configuration
+[tool.uv.workspace]
+members = []
+
 # Ruff configuration
 [tool.ruff]
 target-version = "py310"
 line-length = 88
 indent-width = 2
+# Performance optimizations
+cache-dir = ".ruff_cache"
 exclude = [
     ".git",
     ".mypy_cache",
@@ -96,6 +111,9 @@ select = [
     "ERA",    # eradicate
     "PL",     # pylint
     "TRY",    # tryceratops
+    "PERF",   # perflint (performance)
+    "ICN",    # flake8-import-conventions
+    "FURB",   # refurb (modern Python)
 ]
 ignore = [
     "E501",   # line too long, handled by formatter
@@ -131,9 +149,11 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
-known-third-party = ["pytest", "poetry"]
+known-third-party = ["pytest", "uv", "typer", "ruff", "mypy"]
 force-sort-within-sections = true
 split-on-trailing-comma = true
+combine-as-imports = true
+force-single-line = false
 
 # MyPy configuration
 [tool.mypy]

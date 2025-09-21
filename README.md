@@ -1,7 +1,7 @@
 # Python Project Template
 
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](https://www.python.org/)
-[![uv](https://img.shields.io/badge/uv-FFD43B?logo=python&logoColor=000)](https://docs.astral.sh/uv/)
+[![uv](https://img.shields.io/badge/uv-FFD43B?logo=uv&logoColor=000)](https://docs.astral.sh/uv/)
 [![Typer](https://img.shields.io/badge/Typer-FF6B6B?logo=python&logoColor=white)](https://typer.tiangolo.com/)
 [![Ruff](https://img.shields.io/badge/Ruff-7C3AED?logo=ruff&logoColor=white)](https://docs.astral.sh/ruff/)
 [![mypy](https://img.shields.io/badge/mypy-1976D2?logo=python&logoColor=white)](https://mypy.readthedocs.io/)

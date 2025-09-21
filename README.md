@@ -27,6 +27,29 @@ A Python project template with modern tooling, automated testing, security scann
 
 ## Getting Started
 
+### Option 1: Quick Start with Clean History (Recommended)
+
+1. Clone the template:
+   ```bash
+   git clone https://github.com/madebyjake/python-template.git <project-name>
+   cd <project-name>
+   ```
+
+2. Run the initialization script:
+   ```bash
+   python init_project.py
+   ```
+   
+   The script will:
+   - Ask for your project name and customize all files
+   - Create a clean git history with a single initial commit
+   - Optionally remove template-specific files
+   - Show you the next steps
+
+3. Follow the displayed next steps to install dependencies and start building.
+
+### Option 2: Manual Setup
+
 1. Clone and customize:
    ```bash
    git clone <this-repo> my-new-project
@@ -34,17 +57,26 @@ A Python project template with modern tooling, automated testing, security scann
    # Update pyproject.toml with your project details
    ```
 
-2. Install dependencies:
+2. (Optional) Create clean git history:
+   ```bash
+   # Remove template history and start fresh
+   rm -rf .git
+   git init
+   git add .
+   git commit -m "chore: initialize repository"
+   ```
+
+3. Install dependencies:
    ```bash
    poetry install
    ```
 
-3. Set up pre-commit hooks:
+4. Set up pre-commit hooks:
    ```bash
    poetry run pre-commit install
    ```
 
-4. Run tests:
+5. Run tests:
    ```bash
    poetry run pytest
    # Or use make commands:
@@ -52,7 +84,7 @@ A Python project template with modern tooling, automated testing, security scann
    make check  # Run all checks
    ```
 
-5. Run the application:
+6. Run the application:
    ```bash
    poetry run python-template
    # Or use make commands:
@@ -98,6 +130,7 @@ Use `make help` to see all available commands, or run directly:
 ├── docs/                       # Documentation
 │   ├── index.md
 │   └── api.md
+├── init_project.py             # Project initialization script
 ├── .vscode/                    # VSCode configuration
 │   ├── settings.json           # Editor settings
 │   └── extensions.json         # Recommended extensions

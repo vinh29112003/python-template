@@ -120,6 +120,7 @@ ignore = [
 ]
 "**/migrations/**/*.py" = ["ALL"]
 "scripts/**/*.py" = ["T20"]  # allow print statements in scripts
+"init_project.py" = ["T20", "S603", "S607"]  # allow print statements and subprocess calls in init script
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]

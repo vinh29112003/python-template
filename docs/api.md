@@ -2,6 +2,6 @@
 
 This page documents the public API of the project.
 
-## `placeholder` module
+## CLI Module
 
-::: src.placeholder
+::: src.cli.main

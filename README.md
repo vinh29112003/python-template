@@ -39,7 +39,7 @@ A Python project template with modern tooling, automated testing, security scann
    ```bash
    python init_project.py
    ```
-   
+
    The script will:
    - Ask for your project name and customize all files
    - Create a clean git history with a single initial commit
@@ -121,19 +121,41 @@ pip install uv
 
 Use `make help` to see all available commands, or run directly:
 
-- **Install:** `make install` - Install dependencies
-- **Test:** `make test` - Run tests
-- **Test with coverage:** `make test-cov` - Run tests with coverage report
-- **Run:** `make run` - Run the application
-- **Debug:** `make debug` - Run in debug mode
+**Setup & Dependencies:**
+- **Setup:** `make setup` - Complete development setup (install deps + pre-commit)
+- **Install:** `make install` - Install main dependencies
+- **Install dev:** `make install-dev` - Install all dependencies including dev
+- **Add package:** `make add PACKAGE=name` - Add a new dependency
+- **Remove package:** `make remove PACKAGE=name` - Remove a dependency
+- **Dependency tree:** `make tree` - Show dependency tree
+
+**Code Quality:**
+- **All checks:** `make check` - Run linting, type checking, and tests
+- **Fast checks:** `make check-fast` - Run fast checks (lint only)
+- **Full checks:** `make check-full` - Run all checks including coverage
 - **Lint:** `make lint` - Run Ruff linter
 - **Format:** `make format` - Format code with Ruff
+- **Format check:** `make format-check` - Check if code is formatted correctly
+- **Format fix:** `make format-fix` - Format code and fix issues automatically
 - **Type check:** `make type-check` - Run mypy type checking
-- **All checks:** `make check` - Run linting, type checking, and tests
+
+**Testing & Building:**
+- **Test:** `make test` - Run tests
+- **Test with coverage:** `make test-cov` - Run tests with coverage report
 - **Build:** `make build` - Build package for distribution
 - **Publish:** `make publish` - Publish to PyPI
-- **Documentation:** `make docs` - Build documentation
+
+**Application:**
+- **Run:** `make run` - Run the application
+- **Debug:** `make debug` - Run in debug mode
+
+**Documentation:**
+- **Build docs:** `make docs` - Build documentation
 - **Serve docs:** `make serve-docs` - Serve documentation locally
+
+**Performance:**
+- **Benchmark:** `make benchmark` - Benchmark linting and formatting performance
+- **Profile:** `make profile` - Profile dependency resolution
 
 ### Project Structure
 ```

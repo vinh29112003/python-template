@@ -1,7 +1,7 @@
 # Python Project Template
 
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](https://www.python.org/)
-[![Poetry](https://img.shields.io/badge/Poetry-5037E9?logo=python&logoColor=fff)](https://python-poetry.org/)
+[![uv](https://img.shields.io/badge/uv-FFD43B?logo=uv&logoColor=000)](https://docs.astral.sh/uv/)
 [![Typer](https://img.shields.io/badge/Typer-FF6B6B?logo=python&logoColor=white)](https://typer.tiangolo.com/)
 [![Ruff](https://img.shields.io/badge/Ruff-7C3AED?logo=ruff&logoColor=white)](https://docs.astral.sh/ruff/)
 [![mypy](https://img.shields.io/badge/mypy-1976D2?logo=python&logoColor=white)](https://mypy.readthedocs.io/)
@@ -15,7 +15,7 @@ A Python project template with modern tooling, automated testing, security scann
 ## Includes
 
 - **Ruff** - Linter and code formatter
-- **Poetry** - Dependency management
+- **uv** - Fast Python package and project manager
 - **mypy** - Static type checking
 - **pytest** - Testing framework with coverage
 - **Typer** - CLI framework with automatic help generation
@@ -39,7 +39,7 @@ A Python project template with modern tooling, automated testing, security scann
    ```bash
    python init_project.py
    ```
-   
+
    The script will:
    - Ask for your project name and customize all files
    - Create a clean git history with a single initial commit
@@ -68,17 +68,17 @@ A Python project template with modern tooling, automated testing, security scann
 
 3. Install dependencies:
    ```bash
-   poetry install
+   uv sync
    ```
 
 4. Set up pre-commit hooks:
    ```bash
-   poetry run pre-commit install
+   uv run pre-commit install
    ```
 
 5. Run tests:
    ```bash
-   poetry run pytest
+   uv run pytest
    # Or use make commands:
    make test
    make check  # Run all checks
@@ -86,7 +86,7 @@ A Python project template with modern tooling, automated testing, security scann
 
 6. Run the application:
    ```bash
-   poetry run python-template
+   uv run python-template
    # Or use make commands:
    make run                    # Run with default package name
    make run ARGS="--help"      # Run with arguments
@@ -96,7 +96,24 @@ A Python project template with modern tooling, automated testing, security scann
 ## Requirements
 
 - **Python**: 3.10, 3.11, 3.12, or 3.13
-- **Poetry**: For dependency management
+- **uv**: For dependency management
+
+### Installing uv
+
+Install uv with the official installer:
+
+```bash
+# macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+Or install via pip:
+```bash
+pip install uv
+```
 
 ## Development
 
@@ -104,19 +121,41 @@ A Python project template with modern tooling, automated testing, security scann
 
 Use `make help` to see all available commands, or run directly:
 
-- **Install:** `make install` - Install dependencies
-- **Test:** `make test` - Run tests
-- **Test with coverage:** `make test-cov` - Run tests with coverage report
-- **Run:** `make run` - Run the application
-- **Debug:** `make debug` - Run in debug mode
+**Setup & Dependencies:**
+- **Setup:** `make setup` - Complete development setup (install deps + pre-commit)
+- **Install:** `make install` - Install main dependencies
+- **Install dev:** `make install-dev` - Install all dependencies including dev
+- **Add package:** `make add PACKAGE=name` - Add a new dependency
+- **Remove package:** `make remove PACKAGE=name` - Remove a dependency
+- **Dependency tree:** `make tree` - Show dependency tree
+
+**Code Quality:**
+- **All checks:** `make check` - Run linting, type checking, and tests
+- **Fast checks:** `make check-fast` - Run fast checks (lint only)
+- **Full checks:** `make check-full` - Run all checks including coverage
 - **Lint:** `make lint` - Run Ruff linter
 - **Format:** `make format` - Format code with Ruff
+- **Format check:** `make format-check` - Check if code is formatted correctly
+- **Format fix:** `make format-fix` - Format code and fix issues automatically
 - **Type check:** `make type-check` - Run mypy type checking
-- **All checks:** `make check` - Run linting, type checking, and tests
+
+**Testing & Building:**
+- **Test:** `make test` - Run tests
+- **Test with coverage:** `make test-cov` - Run tests with coverage report
 - **Build:** `make build` - Build package for distribution
 - **Publish:** `make publish` - Publish to PyPI
-- **Documentation:** `make docs` - Build documentation
+
+**Application:**
+- **Run:** `make run` - Run the application
+- **Debug:** `make debug` - Run in debug mode
+
+**Documentation:**
+- **Build docs:** `make docs` - Build documentation
 - **Serve docs:** `make serve-docs` - Serve documentation locally
+
+**Performance:**
+- **Benchmark:** `make benchmark` - Benchmark linting and formatting performance
+- **Profile:** `make profile` - Profile dependency resolution
 
 ### Project Structure
 ```
@@ -150,10 +189,10 @@ The template includes a CLI built with Typer:
 
 ```bash
 # Show project information
-poetry run python-template
+uv run python-template
 
 # Show help
-poetry run python-template --help
+uv run python-template --help
 
 # Run application (multiple ways)
 make run                           # Default package name
@@ -174,8 +213,8 @@ The Makefile provides commands for installing dependencies, running tests, linti
 
 The project includes security scanning tools:
 
-- **Safety:** `poetry run safety scan` - Check for known vulnerabilities
-- **Bandit:** `poetry run bandit -r src/` - Security linting for Python code
+- **Safety:** `uv run safety scan` - Check for known vulnerabilities
+- **Bandit:** `uv run bandit -r src/` - Security linting for Python code
 
 ## IDE Support
 

